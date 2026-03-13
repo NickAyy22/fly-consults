@@ -3,196 +3,1026 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fly Consults | Company Profile</title>
+  <title>Fly Consults | Strategic Consulting</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy:    #0B1F3A;
+      --navy2:   #112240;
+      --navy3:   #1A3560;
+      --gold:    #C9A84C;
+      --gold2:   #E2C47A;
+      --white:   #FFFFFF;
+      --offwhite:#F7F6F2;
+      --gray:    #8A9BB0;
+      --light:   #EEF1F6;
+      --text:    #1A2740;
+      --muted:   #4A5E78;
     }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-      color: #0f172a;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+      font-family: "Georgia", "Times New Roman", serif;
+      background: var(--offwhite);
+      color: var(--text);
+      overflow-x: hidden;
     }
 
-    .container {
-      width: 100%;
-      max-width: 900px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid #e2e8f0;
-      border-radius: 28px;
-      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+    /* ── Typography helpers ── */
+    .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .label {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── Navbar ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(11, 31, 58, 0.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 68px;
+    }
+
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links {
+      display: flex; gap: 36px; list-style: none;
+    }
+    .nav-links a {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--white); border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(165deg, var(--navy) 0%, var(--navy3) 55%, #0d2a50 100%);
+      display: flex; align-items: center;
+      padding: 100px 5% 60px;
+      position: relative;
       overflow: hidden;
     }
 
-    .hero {
-      padding: 56px 48px 40px;
-      text-align: center;
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-      color: white;
+    #hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 70% 50%, rgba(201,168,76,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 10% 90%, rgba(201,168,76,0.04) 0%, transparent 60%);
+      pointer-events: none;
     }
 
-    .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
-      margin-bottom: 14px;
+    /* decorative lines */
+    #hero::after {
+      content: "";
+      position: absolute; right: 0; top: 0; bottom: 0;
+      width: 42%;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 800' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='0' y1='0' x2='500' y2='800' stroke='rgba(201,168,76,0.07)' stroke-width='1'/%3E%3Cline x1='100' y1='0' x2='600' y2='800' stroke='rgba(201,168,76,0.05)' stroke-width='1'/%3E%3Cline x1='200' y1='0' x2='700' y2='800' stroke='rgba(201,168,76,0.04)' stroke-width='1'/%3E%3C/svg%3E") no-repeat center/cover;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 760px;
+    }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 28px;
+    }
+    .hero-tag-line {
+      width: 36px; height: 1px; background: var(--gold);
+    }
+
+    #hero h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--white);
       letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+    #hero h1 em {
+      font-style: italic; color: var(--gold2);
     }
 
-    .hero p {
+    #hero p.hero-sub {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 1.05rem;
-      color: rgba(255, 255, 255, 0.85);
-      max-width: 620px;
-      margin: 0 auto;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.72);
+      max-width: 560px;
+      margin-bottom: 48px;
     }
 
-    .content {
-      padding: 40px 48px 56px;
-      text-align: center;
+    .hero-cta {
+      display: flex; flex-wrap: wrap; gap: 16px;
     }
 
-    .intro {
-      max-width: 680px;
-      margin: 0 auto 28px;
-      color: #475569;
-      font-size: 1rem;
-      line-height: 1.7;
+    .btn-primary {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 16px 36px;
+      border: none; cursor: pointer;
+      transition: background 0.25s, transform 0.2s;
     }
+    .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); }
 
-    .toggle-btn {
-      background: #0f172a;
-      color: white;
-      border: none;
-      padding: 15px 28px;
-      border-radius: 999px;
-      font-size: 1rem;
+    .btn-outline {
+      display: inline-block;
+      background: transparent;
+      color: var(--white);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.85rem;
       font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 15px 36px;
+      border: 1px solid rgba(255,255,255,0.35);
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
+      transition: border-color 0.25s, color 0.25s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; flex-wrap: wrap; gap: 40px;
+      margin-top: 72px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .stat-item {}
+    .stat-num {
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .stat-num span { color: var(--gold); }
+    .stat-desc {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* ── Sections common ── */
+    section { padding: 100px 5%; }
+
+    .section-header {
+      max-width: 640px;
+      margin-bottom: 64px;
+    }
+    .section-header .label { margin-bottom: 14px; display: block; }
+    .section-header h2 {
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .section-header p {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    /* ── Divider line ── */
+    .gold-rule {
+      width: 48px; height: 2px;
+      background: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    /* ── About ── */
+    #about { background: var(--white); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      max-width: 1200px;
+    }
+
+    .about-text p {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .about-values {
+      display: flex; flex-direction: column; gap: 28px;
+    }
+    .value-item {
+      padding: 28px 32px;
+      border-left: 3px solid var(--gold);
+      background: var(--offwhite);
+    }
+    .value-item h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      letter-spacing: 0.02em;
+    }
+    .value-item p {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    /* ── Services ── */
+    #services { background: var(--navy); }
+    #services .section-header h2 { color: var(--white); }
+    #services .section-header p { color: rgba(255,255,255,0.6); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 1200px;
+    }
+
+    .service-card {
+      background: var(--navy2);
+      padding: 48px 40px 52px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .service-card:hover { background: var(--navy3); }
+
+    .service-card::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gold);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-num {
+      font-size: 3rem;
+      font-weight: 200;
+      color: rgba(201,168,76,0.2);
+      line-height: 1;
+      margin-bottom: 24px;
+      letter-spacing: -0.04em;
+    }
+
+    .service-card h3 {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .service-card p {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.58);
       margin-bottom: 28px;
     }
 
-    .toggle-btn:hover {
-      background: #1e293b;
-      transform: translateY(-1px);
+    .service-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .service-list li {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.84rem;
+      color: rgba(255,255,255,0.5);
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .service-list li::before {
+      content: "—";
+      position: absolute; left: 0;
+      color: var(--gold);
     }
 
-    .profile-box {
-      max-width: 720px;
-      margin: 0 auto;
-      text-align: left;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 22px;
-      padding: 28px;
-      display: none;
-      animation: fadeIn 0.35s ease;
+    /* ── History ── */
+    #history { background: var(--offwhite); }
+
+    .history-body {
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 80px;
+      align-items: start;
     }
 
-    .profile-box.show {
-      display: block;
+    .history-intro p {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .history-intro p:last-child { margin-bottom: 0; }
+
+    .timeline {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .tl-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 0 32px;
+      padding-bottom: 40px;
+      position: relative;
+    }
+    .tl-item:last-child { padding-bottom: 0; }
+
+    .tl-item::after {
+      content: "";
+      position: absolute; left: 99px; top: 8px; bottom: 0;
+      width: 1px; background: var(--light);
+    }
+    .tl-item:last-child::after { display: none; }
+
+    .tl-year {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      text-transform: uppercase;
+      padding-top: 2px;
+      text-align: right;
     }
 
-    .profile-box h2 {
-      font-size: 1.5rem;
+    .tl-content {
+      padding-left: 4px;
+      position: relative;
+    }
+    .tl-content::before {
+      content: "";
+      position: absolute; left: -18px; top: 7px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid var(--offwhite);
+    }
+
+    .tl-content h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .tl-content p {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    /* ── Team ── */
+    #team { background: var(--white); }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      max-width: 1100px;
+    }
+
+    .team-card {
+      padding: 40px 36px 36px;
+      border: 1px solid var(--light);
+      background: var(--white);
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .team-card:hover {
+      box-shadow: 0 16px 40px rgba(11,31,58,0.08);
+      transform: translateY(-4px);
+    }
+
+    .team-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--navy3));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 24px;
+      font-family: Georgia, serif;
+    }
+
+    .team-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .team-card .role {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
       margin-bottom: 16px;
-      color: #0f172a;
+    }
+    .team-rule { width: 28px; height: 1px; background: var(--light); margin-bottom: 16px; }
+    .team-card p {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: var(--muted);
     }
 
-    .profile-box p {
-      color: #475569;
-      line-height: 1.8;
-      margin-bottom: 14px;
+    /* ── Contact ── */
+    #contact {
+      background: linear-gradient(160deg, var(--navy) 0%, var(--navy3) 100%);
+      text-align: center;
     }
 
-    .profile-box ul {
-      padding-left: 20px;
-      color: #475569;
-      line-height: 1.8;
+    #contact .section-header {
+      margin: 0 auto 56px;
+      text-align: center;
+    }
+    #contact .section-header h2 { color: var(--white); }
+    #contact .section-header p { color: rgba(255,255,255,0.65); }
+
+    .contact-wrapper { max-width: 700px; margin: 0 auto; }
+
+    .contact-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
     }
 
-    .profile-box li {
+    .contact-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(201,168,76,0.2);
+      padding: 32px 24px;
+      text-align: center;
+      transition: background 0.3s;
+    }
+    .contact-card:hover { background: rgba(201,168,76,0.08); }
+
+    .contact-card .cc-icon {
+      width: 44px; height: 44px;
+      background: rgba(201,168,76,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .contact-card .cc-icon svg {
+      width: 20px; height: 20px; fill: var(--gold);
+    }
+    .contact-card h4 {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
       margin-bottom: 8px;
     }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .contact-card p {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.9rem;
+      color: var(--white);
+      line-height: 1.5;
     }
 
-    @media (max-width: 640px) {
-      .hero,
-      .content {
-        padding-left: 24px;
-        padding-right: 24px;
-      }
+    .contact-note {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.04em;
+      margin-top: 32px;
+    }
 
-      .profile-box {
-        padding: 22px;
+    /* ── Footer ── */
+    footer {
+      background: #060F1E;
+      padding: 36px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-logo {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+    .footer-logo span { color: var(--gold); }
+    footer p {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+    }
+    .footer-links {
+      display: flex; gap: 24px; list-style: none;
+    }
+    .footer-links a {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── Scroll-reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .history-body { grid-template-columns: 1fr; gap: 48px; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 72px 6%; }
+      .nav-links { display: none; flex-direction: column; gap: 0; }
+      .nav-links.open {
+        display: flex;
+        position: absolute; top: 68px; left: 0; right: 0;
+        background: var(--navy);
+        border-top: 1px solid rgba(201,168,76,0.15);
+        padding: 16px 0;
       }
+      .nav-links.open a {
+        display: block;
+        padding: 12px 5%;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      .hamburger { display: flex; }
+      .services-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr; }
+      .contact-cards { grid-template-columns: 1fr; }
+      .hero-stats { gap: 28px; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      #hero h1 { font-size: 2rem; }
+      .about-grid, .history-body { gap: 32px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <section class="hero">
-      <h1>Fly Consults</h1>
-      <p>전략, 실행, 성장에 집중하는 현대적인 컨설팅 회사</p>
-    </section>
 
-    <section class="content">
-      <p class="intro">
-        Fly Consults는 기업이 더 빠르고 정확하게 성장할 수 있도록 비즈니스 전략, 운영 개선,
-        브랜드 방향성을 제시하는 컨설팅 회사입니다. 아래 버튼을 누르면 회사의 약력을 확인할 수 있습니다.
+  <!-- ── Navbar ── -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">Fly<span>.</span>Consults</a>
+    <ul class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#history">History</a>
+      <a href="#team">Team</a>
+      <a href="#contact">Contact</a>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">
+        <div class="hero-tag-line"></div>
+        <span class="label">Strategic Consulting</span>
+      </div>
+
+      <h1>
+        복잡한 시장에서<br>
+        <em>명확한 방향성</em>을<br>
+        설계합니다
+      </h1>
+
+      <p class="hero-sub">
+        Fly Consults는 빠르게 변화하는 비즈니스 환경 속에서<br>
+        기업이 지속 가능한 성장과 경쟁 우위를 확보할 수 있도록<br>
+        전략·운영·브랜드 전 영역을 아우르는 자문을 제공합니다.
       </p>
 
-      <button class="toggle-btn" onclick="toggleProfile()">회사 약력 보기</button>
+      <div class="hero-cta">
+        <a href="#services" class="btn-primary">서비스 살펴보기</a>
+        <a href="#contact" class="btn-outline">문의하기</a>
+      </div>
 
-      <div class="profile-box" id="profileBox">
-        <h2>회사 약력</h2>
-        <p>
-          Fly Consults는 빠르게 변화하는 시장 속에서 기업이 명확한 방향성과 실행력을 갖출 수 있도록 돕기 위해 설립되었습니다.
-          우리는 단순한 조언에 그치지 않고, 실제 성장과 성과로 이어지는 전략을 설계하는 데 집중합니다.
-        </p>
-        <p>
-          설립 이후 Fly Consults는 스타트업과 성장 단계의 기업들을 대상으로 전략 수립, 운영 효율화, 브랜드 포지셔닝,
-          그리고 시장 확장 방안에 대한 자문을 제공해 왔습니다.
-        </p>
-        <ul>
-          <li>비즈니스 전략 및 성장 방향 수립</li>
-          <li>운영 프로세스 분석 및 개선 제안</li>
-          <li>브랜드 메시지 및 포지셔닝 컨설팅</li>
-          <li>실행 중심의 맞춤형 자문 제공</li>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">50<span>+</span></div>
+          <div class="stat-desc">Clients Served</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-desc">Core Practices</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">98<span>%</span></div>
+          <div class="stat-desc">Client Satisfaction</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">100<span>%</span></div>
+          <div class="stat-desc">Execution Focused</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── About ── -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="section-header" style="margin-bottom: 36px;">
+          <span class="label">About Us</span>
+          <div class="gold-rule"></div>
+          <h2>실행이 전략을<br>완성합니다</h2>
+          <p>우리는 보고서를 납품하는 컨설팅 회사가 아닙니다. 실질적인 변화와 성과를 함께 만드는 파트너입니다.</p>
+        </div>
+        <div class="about-text">
+          <p>Fly Consults는 빠르게 변화하는 시장 속에서 기업이 명확한 방향성과 실행력을 갖출 수 있도록 돕기 위해 설립되었습니다. 단순한 조언에 그치지 않고, 실제 성장과 성과로 이어지는 전략을 설계하는 데 집중합니다.</p>
+          <p>스타트업부터 성장 단계의 중견 기업까지, 각 기업의 고유한 맥락과 과제를 이해하고 그에 맞는 맞춤형 솔루션을 제공합니다. 우리의 접근 방식은 데이터 기반의 분석과 현장 경험이 결합된 실용적 컨설팅입니다.</p>
+        </div>
+      </div>
+
+      <div class="about-values reveal reveal-delay-2">
+        <div class="value-item">
+          <h4>Clarity First</h4>
+          <p>복잡한 문제를 단순하고 명확한 전략으로 전환합니다. 모호함 없이 실행 가능한 방향을 제시합니다.</p>
+        </div>
+        <div class="value-item">
+          <h4>Execution-Driven</h4>
+          <p>전략과 실행의 간극을 좁힙니다. 계획이 현장에서 실제로 작동하도록 끝까지 함께합니다.</p>
+        </div>
+        <div class="value-item">
+          <h4>Long-Term Partnership</h4>
+          <p>단기 프로젝트를 넘어 지속적인 성장을 위한 장기적 파트너십을 지향합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Services ── -->
+  <section id="services">
+    <div class="section-header reveal">
+      <span class="label">Our Services</span>
+      <div class="gold-rule"></div>
+      <h2>세 가지 핵심 영역에서<br>전문성을 제공합니다</h2>
+      <p>전략 수립부터 실행까지, 비즈니스의 모든 성장 단계를 지원합니다.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">01</div>
+        <h3>전략 컨설팅</h3>
+        <p>시장 환경을 분석하고 기업의 지속 가능한 경쟁 우위를 설계합니다. 불확실한 환경에서 명확한 의사결정 체계를 구축합니다.</p>
+        <ul class="service-list">
+          <li>비즈니스 모델 재설계 및 성장 전략 수립</li>
+          <li>시장 진입 전략 및 경쟁 분석</li>
+          <li>사업 포트폴리오 최적화</li>
+          <li>KPI 체계 설계 및 성과 관리</li>
         </ul>
       </div>
-    </section>
-  </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">02</div>
+        <h3>운영 개선</h3>
+        <p>조직의 내부 프로세스를 진단하고 효율성을 극대화합니다. 낭비를 제거하고 핵심에 집중하는 조직 구조를 만듭니다.</p>
+        <ul class="service-list">
+          <li>운영 프로세스 진단 및 리엔지니어링</li>
+          <li>조직 구조 및 의사결정 체계 개선</li>
+          <li>디지털 전환 전략 수립</li>
+          <li>비용 구조 최적화 및 수익성 개선</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">03</div>
+        <h3>브랜드 포지셔닝</h3>
+        <p>고객의 마음속에 명확한 브랜드 위치를 설정합니다. 차별화된 메시지로 시장에서의 존재감을 강화합니다.</p>
+        <ul class="service-list">
+          <li>브랜드 아이덴티티 및 메시지 전략</li>
+          <li>타겟 고객 세분화 및 가치 제안 설계</li>
+          <li>시장 포지셔닝 및 차별화 전략</li>
+          <li>브랜드 커뮤니케이션 전략 수립</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── History ── -->
+  <section id="history">
+    <div class="history-body">
+      <div class="reveal">
+        <div class="section-header" style="margin-bottom: 36px;">
+          <span class="label">Company History</span>
+          <div class="gold-rule"></div>
+          <h2>성장의<br>궤적</h2>
+        </div>
+        <div class="history-intro">
+          <p>Fly Consults는 스타트업과 성장 단계의 기업들이 빠른 속도로 변화하는 시장에서 방향을 잃지 않도록 돕기 위해 출범했습니다.</p>
+          <p>설립 이후 전략 수립, 운영 효율화, 브랜드 포지셔닝, 시장 확장에 이르기까지 기업의 성장 전 과정을 함께하고 있습니다.</p>
+          <p>우리는 매 프로젝트마다 쌓아온 경험과 인사이트를 바탕으로 더 깊이 있는 자문을 제공하며, 클라이언트와 함께 성장합니다.</p>
+        </div>
+      </div>
+
+      <div class="timeline reveal reveal-delay-2">
+        <div class="tl-item">
+          <div class="tl-year">설립</div>
+          <div class="tl-content">
+            <h4>Fly Consults 창립</h4>
+            <p>빠르게 변화하는 시장 속에서 기업의 명확한 방향성과 실행력을 지원하기 위해 설립되었습니다.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">초기</div>
+          <div class="tl-content">
+            <h4>스타트업 전략 자문 시작</h4>
+            <p>초기 단계 스타트업을 중심으로 비즈니스 모델 검증 및 성장 전략 수립 서비스를 제공하기 시작했습니다.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">확장</div>
+          <div class="tl-content">
+            <h4>운영 개선 서비스 런칭</h4>
+            <p>전략 수립을 넘어 조직 운영 효율화와 프로세스 개선 서비스를 공식 출범하여 서비스 영역을 확장했습니다.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">성장</div>
+          <div class="tl-content">
+            <h4>브랜드 포지셔닝 전문팀 구성</h4>
+            <p>브랜드 전략 전문가를 영입하여 전략·운영·브랜드 세 축을 갖춘 종합 컨설팅 체계를 완성했습니다.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">현재</div>
+          <div class="tl-content">
+            <h4>실행 중심 파트너십 모델 정착</h4>
+            <p>단발성 자문을 넘어 클라이언트의 장기 성장 파트너로서 지속적인 동반 성장 모델을 구축하고 있습니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Team ── -->
+  <section id="team">
+    <div class="section-header reveal">
+      <span class="label">Our Team</span>
+      <div class="gold-rule"></div>
+      <h2>전문성과 경험을<br>갖춘 팀</h2>
+      <p>각 분야에서 검증된 전문가들이 클라이언트의 성장을 함께 설계합니다.</p>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-card reveal reveal-delay-1">
+        <div class="team-avatar">K</div>
+        <h3>김전략</h3>
+        <div class="role">Managing Director</div>
+        <div class="team-rule"></div>
+        <p>10년 이상의 기업 전략 컨설팅 경험을 바탕으로 시장 진입 전략과 성장 로드맵 설계를 전문으로 합니다.</p>
+      </div>
+
+      <div class="team-card reveal reveal-delay-2">
+        <div class="team-avatar">L</div>
+        <h3>이운영</h3>
+        <div class="role">Operations Lead</div>
+        <div class="team-rule"></div>
+        <p>조직 효율화와 디지털 전환 프로젝트를 다수 이끌었으며, 프로세스 개선을 통한 실질적인 비용 절감을 구현합니다.</p>
+      </div>
+
+      <div class="team-card reveal reveal-delay-3">
+        <div class="team-avatar">P</div>
+        <h3>박브랜드</h3>
+        <div class="role">Brand Strategy Lead</div>
+        <div class="team-rule"></div>
+        <p>소비자 심리와 시장 분석을 결합한 브랜드 포지셔닝 전략으로 다수의 브랜드 재도약 사례를 만들었습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ── -->
+  <section id="contact">
+    <div class="contact-wrapper">
+      <div class="section-header reveal">
+        <span class="label">Contact Us</span>
+        <div class="gold-rule" style="margin: 14px auto 20px;"></div>
+        <h2>지금 대화를<br>시작하세요</h2>
+        <p>비즈니스 과제에 대해 솔직하게 이야기 나눌 준비가 되어 있습니다. 아래 채널을 통해 언제든 연락주세요.</p>
+      </div>
+
+      <div class="contact-cards reveal reveal-delay-1">
+        <div class="contact-card">
+          <div class="cc-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </div>
+          <h4>Email</h4>
+          <p>hello@flyconsults.com</p>
+        </div>
+
+        <div class="contact-card">
+          <div class="cc-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+          </div>
+          <h4>Phone</h4>
+          <p>+82 2-000-0000</p>
+        </div>
+
+        <div class="contact-card">
+          <div class="cc-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+          </div>
+          <h4>Location</h4>
+          <p>서울특별시<br>강남구</p>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-2">
+        <a href="mailto:hello@flyconsults.com" class="btn-primary">이메일 보내기</a>
+        <p class="contact-note">영업일 기준 24시간 내 회신 드립니다</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-logo">Fly<span>.</span>Consults</div>
+    <ul class="footer-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#history">History</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <p>© 2025 Fly Consults. All rights reserved.</p>
+  </footer>
 
   <script>
-    function toggleProfile() {
-      const profileBox = document.getElementById('profileBox');
-      const button = document.querySelector('.toggle-btn');
+    // ── Mobile nav ──
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
 
-      profileBox.classList.toggle('show');
+    // ── Navbar scroll style ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.style.boxShadow = window.scrollY > 30
+        ? '0 2px 20px rgba(0,0,0,0.25)' : 'none';
+    });
 
-      if (profileBox.classList.contains('show')) {
-        button.textContent = '회사 약력 숨기기';
-      } else {
-        button.textContent = '회사 약력 보기';
-      }
+    // ── Scroll reveal ──
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer  = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ── Active nav link on scroll ──
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      const scrollY = window.pageYOffset;
+      sections.forEach(sec => {
+        const top    = sec.offsetTop - 90;
+        const bottom = top + sec.offsetHeight;
+        const id     = sec.getAttribute('id');
+        const link   = document.querySelector(`.nav-links a[href="#${id}"]`);
+        if (link) {
+          if (scrollY >= top && scrollY < bottom) {
+            link.style.color = 'var(--gold)';
+          } else {
+            link.style.color = '';
+          }
+        }
+      });
+    });
+
+    // ── Counter animation on hero ──
+    function animateCount(el, target, suffix) {
+      let current = 0;
+      const step = Math.ceil(target / 40);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.innerHTML = current + '<span>' + suffix + '</span>';
+        if (current >= target) clearInterval(timer);
+      }, 30);
     }
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const nums = e.target.querySelectorAll('.stat-num');
+          const data = [
+            { val: 50, suffix: '+' },
+            { val: 3,  suffix: '' },
+            { val: 98, suffix: '%' },
+            { val: 100, suffix: '%' },
+          ];
+          nums.forEach((el, i) => {
+            if (data[i]) animateCount(el, data[i].val, data[i].suffix);
+          });
+          statsObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const heroStats = document.querySelector('.hero-stats');
+    if (heroStats) statsObserver.observe(heroStats);
   </script>
 </body>
 </html>

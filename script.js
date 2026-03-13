@@ -1,21 +1,21 @@
 /* ══════════════════════════════════════
    Fly Consults — script.js
-   Pure HTML/CSS/JS, no external APIs
+   순수 HTML/CSS/JS, 외부 API 없음
 ══════════════════════════════════════ */
 
 (function () {
   "use strict";
 
-  /* ── 1. Navbar: scroll shadow + active link ── */
+  /* ── 1. 네비바: 스크롤 + 활성 링크 ── */
   var navbar   = document.getElementById("navbar");
   var sections = document.querySelectorAll("section[id]");
 
   function onScroll() {
-    navbar.classList.toggle("scrolled", window.scrollY > 10);
+    navbar.classList.toggle("scrolled", window.scrollY > 8);
 
     var scrollY = window.pageYOffset;
     sections.forEach(function (sec) {
-      var top    = sec.offsetTop - 80;
+      var top    = sec.offsetTop - 90;
       var bottom = top + sec.offsetHeight;
       var id     = sec.getAttribute("id");
       var link   = document.querySelector('.nav-links a[data-section="' + id + '"]');
@@ -27,9 +27,9 @@
 
   window.addEventListener("scroll", onScroll, { passive: true });
 
-  /* ── 2. Mobile hamburger menu ── */
-  var hamburger  = document.getElementById("hamburger");
-  var navLinks   = document.getElementById("navLinks");
+  /* ── 2. 모바일 햄버거 메뉴 ── */
+  var hamburger = document.getElementById("hamburger");
+  var navLinks  = document.getElementById("navLinks");
 
   hamburger.addEventListener("click", function () {
     hamburger.classList.toggle("open");
@@ -43,13 +43,13 @@
     });
   });
 
-  /* ── 3. Scroll reveal ── */
-  var revealObserver = new IntersectionObserver(
+  /* ── 3. 스크롤 페이드인 (IntersectionObserver) ── */
+  var revealObs = new IntersectionObserver(
     function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          revealObserver.unobserve(entry.target);
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add("visible");
+          revealObs.unobserve(e.target);
         }
       });
     },
@@ -57,44 +57,44 @@
   );
 
   document.querySelectorAll(".reveal").forEach(function (el) {
-    revealObserver.observe(el);
+    revealObs.observe(el);
   });
 
-  /* ── 4. Hero counter animation ── */
+  /* ── 4. 숫자 카운터 애니메이션 ── */
   var statsAnimated = false;
 
   function easeOutQuart(t) {
     return 1 - Math.pow(1 - t, 4);
   }
 
-  function animateCounter(el, target, suffix, duration) {
+  function runCounter(el, target, suffix, duration) {
     var startTime = null;
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      var progress = Math.min((timestamp - startTime) / duration, 1);
-      var current  = Math.round(easeOutQuart(progress) * target);
-      el.innerHTML = current + '<span class="stat-suffix">' + suffix + "</span>";
-      if (progress < 1) requestAnimationFrame(step);
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var p = Math.min((ts - startTime) / duration, 1);
+      var v = Math.round(easeOutQuart(p) * target);
+      el.innerHTML = v + '<span class="stat-suffix">' + suffix + "</span>";
+      if (p < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
   }
 
-  var statsObserver = new IntersectionObserver(
+  var statsObs = new IntersectionObserver(
     function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting && !statsAnimated) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !statsAnimated) {
           statsAnimated = true;
-          var statNums = document.querySelectorAll(".stat-num");
+          var nums = document.querySelectorAll(".stat-num");
           var data = [
-            { val: 50,  suffix: "+",  dur: 1000 },
-            { val: 3,   suffix: " Yrs", dur: 700  },
-            { val: 98,  suffix: "%",  dur: 1200 },
-            { val: 100, suffix: "%",  dur: 1400 },
+            { val: 200, suffix: "+",   dur: 1200 },
+            { val: 5,   suffix: "년",  dur: 800  },
+            { val: 98,  suffix: "%",   dur: 1300 },
+            { val: 150, suffix: "+",   dur: 1400 },
           ];
-          statNums.forEach(function (el, i) {
-            if (data[i]) animateCounter(el, data[i].val, data[i].suffix, data[i].dur);
+          nums.forEach(function (el, i) {
+            if (data[i]) runCounter(el, data[i].val, data[i].suffix, data[i].dur);
           });
-          statsObserver.unobserve(entry.target);
+          statsObs.unobserve(e.target);
         }
       });
     },
@@ -102,30 +102,29 @@
   );
 
   var heroStats = document.querySelector(".hero-stats");
-  if (heroStats) statsObserver.observe(heroStats);
+  if (heroStats) statsObs.observe(heroStats);
 
-  /* ── 5. Contact form feedback ── */
+  /* ── 5. 문의 폼 전송 피드백 ── */
   var form       = document.getElementById("contactForm");
   var successMsg = document.getElementById("formSuccess");
 
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-
       var btn = form.querySelector(".form-submit-btn");
-      btn.textContent = "Sending…";
-      btn.disabled    = true;
+      btn.textContent = "전송 중…";
+      btn.disabled = true;
 
-      /* No external API — UI feedback only */
+      /* 외부 API 없음 — UI 피드백만 제공 */
       setTimeout(function () {
         form.reset();
-        btn.textContent = "Send Message";
-        btn.disabled    = false;
+        btn.textContent = "상담 신청하기";
+        btn.disabled = false;
         if (successMsg) {
           successMsg.classList.add("show");
           setTimeout(function () {
             successMsg.classList.remove("show");
-          }, 4000);
+          }, 4500);
         }
       }, 900);
     });

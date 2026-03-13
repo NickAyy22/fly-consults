@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fly Consults | Company Profile</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #e2e8f0;
+      border-radius: 28px;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 56px 48px 40px;
+      text-align: center;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    .content {
+      padding: 40px 48px 56px;
+      text-align: center;
+    }
+
+    .intro {
+      max-width: 680px;
+      margin: 0 auto 28px;
+      color: #475569;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .toggle-btn {
+      background: #0f172a;
+      color: white;
+      border: none;
+      padding: 15px 28px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+      margin-bottom: 28px;
+    }
+
+    .toggle-btn:hover {
+      background: #1e293b;
+      transform: translateY(-1px);
+    }
+
+    .profile-box {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: left;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 22px;
+      padding: 28px;
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .profile-box.show {
+      display: block;
+    }
+
+    .profile-box h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      color: #0f172a;
+    }
+
+    .profile-box p {
+      color: #475569;
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    .profile-box ul {
+      padding-left: 20px;
+      color: #475569;
+      line-height: 1.8;
+    }
+
+    .profile-box li {
+      margin-bottom: 8px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero,
+      .content {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .profile-box {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Fly Consults</h1>
+      <p>전략, 실행, 성장에 집중하는 현대적인 컨설팅 회사</p>
+    </section>
+
+    <section class="content">
+      <p class="intro">
+        Fly Consults는 기업이 더 빠르고 정확하게 성장할 수 있도록 비즈니스 전략, 운영 개선,
+        브랜드 방향성을 제시하는 컨설팅 회사입니다. 아래 버튼을 누르면 회사의 약력을 확인할 수 있습니다.
+      </p>
+
+      <button class="toggle-btn" onclick="toggleProfile()">회사 약력 보기</button>
+
+      <div class="profile-box" id="profileBox">
+        <h2>회사 약력</h2>
+        <p>
+          Fly Consults는 빠르게 변화하는 시장 속에서 기업이 명확한 방향성과 실행력을 갖출 수 있도록 돕기 위해 설립되었습니다.
+          우리는 단순한 조언에 그치지 않고, 실제 성장과 성과로 이어지는 전략을 설계하는 데 집중합니다.
+        </p>
+        <p>
+          설립 이후 Fly Consults는 스타트업과 성장 단계의 기업들을 대상으로 전략 수립, 운영 효율화, 브랜드 포지셔닝,
+          그리고 시장 확장 방안에 대한 자문을 제공해 왔습니다.
+        </p>
+        <ul>
+          <li>비즈니스 전략 및 성장 방향 수립</li>
+          <li>운영 프로세스 분석 및 개선 제안</li>
+          <li>브랜드 메시지 및 포지셔닝 컨설팅</li>
+          <li>실행 중심의 맞춤형 자문 제공</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function toggleProfile() {
+      const profileBox = document.getElementById('profileBox');
+      const button = document.querySelector('.toggle-btn');
+
+      profileBox.classList.toggle('show');
+
+      if (profileBox.classList.contains('show')) {
+        button.textContent = '회사 약력 숨기기';
+      } else {
+        button.textContent = '회사 약력 보기';
+      }
+    }
+  </script>
+</body>
+</html>

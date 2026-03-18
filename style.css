@@ -811,6 +811,19 @@ body {
 }
 .form-success.show { display: flex; }
 
+.form-error {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border: 1px solid rgba(220, 80, 80, 0.4);
+  border-radius: 4px;
+  font-size: 0.87rem;
+  font-weight: 400;
+  color: #f08080;
+}
+.form-error.show { display: flex; }
+
 /* ════════════════════════════════
    FOOTER
 ════════════════════════════════ */

@@ -104,9 +104,10 @@
   var heroStats = document.querySelector(".hero-stats");
   if (heroStats) statsObs.observe(heroStats);
 
-  /* ── 5. 문의 폼 전송 피드백 ── */
+  /* ── 5. 문의 폼 전송 (Formspree) ── */
   var form       = document.getElementById("contactForm");
   var successMsg = document.getElementById("formSuccess");
+  var errorMsg   = document.getElementById("formError");
 
   if (form) {
     form.addEventListener("submit", function (e) {
@@ -115,18 +116,35 @@
       btn.textContent = "전송 중…";
       btn.disabled = true;
 
-      /* 외부 API 없음 — UI 피드백만 제공 */
-      setTimeout(function () {
-        form.reset();
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { "Accept": "application/json" }
+      })
+      .then(function (res) {
+        if (res.ok) {
+          form.reset();
+          if (successMsg) {
+            successMsg.classList.add("show");
+            setTimeout(function () { successMsg.classList.remove("show"); }, 5000);
+          }
+        } else {
+          if (errorMsg) {
+            errorMsg.classList.add("show");
+            setTimeout(function () { errorMsg.classList.remove("show"); }, 5000);
+          }
+        }
+      })
+      .catch(function () {
+        if (errorMsg) {
+          errorMsg.classList.add("show");
+          setTimeout(function () { errorMsg.classList.remove("show"); }, 5000);
+        }
+      })
+      .finally(function () {
         btn.textContent = "상담 신청하기";
         btn.disabled = false;
-        if (successMsg) {
-          successMsg.classList.add("show");
-          setTimeout(function () {
-            successMsg.classList.remove("show");
-          }, 4500);
-        }
-      }, 900);
+      });
     });
   }
 

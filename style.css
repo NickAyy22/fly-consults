@@ -825,6 +825,23 @@ body {
 .form-error.show { display: flex; }
 
 /* ════════════════════════════════
+   COMMENTS (Disqus)
+════════════════════════════════ */
+#comments {
+  background: var(--white);
+  padding: 100px 8vw;
+  border-top: 1px solid var(--border);
+}
+
+.comments-inner {
+  max-width: 800px;
+}
+
+#disqus_thread {
+  margin-top: 40px;
+}
+
+/* ════════════════════════════════
    FOOTER
 ════════════════════════════════ */
 footer {

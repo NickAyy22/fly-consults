@@ -388,6 +388,17 @@
     </div>
   </section>
 
+  <!-- ════════ DISQUS ════════ -->
+  <section id="comments">
+    <div class="comments-inner">
+      <span class="eyebrow">Comments</span>
+      <div class="thin-rule"></div>
+      <h2 class="section-title">의견을 남겨주세요</h2>
+      <div id="disqus_thread"></div>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
   <!-- ════════ FOOTER ════════ -->
   <footer>
     <div class="footer-inner">
@@ -404,5 +415,13 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://flyconsulting-prework.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
 </body>
 </html>
